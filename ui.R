@@ -1,3 +1,5 @@
+# I have cloned this and have Git integrated with RStudio up and running.  --KK
+
 library(shiny)
 library(RColorBrewer)
 library(ggplot2)
