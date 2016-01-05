@@ -98,7 +98,7 @@ shinyUI(fluidPage(
                       
                       plotOutput("orbypPlot"),
                       
-                      p("It's actually the", em("risk ratio"), "that tells you your odds of getting the disease after exposure. 
+                      p("It's actually the", em("risk ratio"), "that tells you how much more likely you are to get the disease after exposure. 
                         This value takes into account the baseline probability, or the likelihood that you would end up diseased had you not been exposed."),    
                       p("If there isn't much likelihood of you getting this disease without exposure to the virus, 
                         or the odds ratio itself is small (exposure doesn't increase your risk much), the odds ratio and risk ratio are similar numbers.
@@ -106,7 +106,8 @@ shinyUI(fluidPage(
                         defined as the proportion by which the odds ratio exceeds the risk ratio: 
                         $$\\frac{Odds  Ratio}{Risk  Ratio} - 1$$"),
                       p("As the probability of getting the disease increases, or the size of the odds ratio increases, 
-                        the bias becomes problematic.")
+                        the bias becomes problematic."),
+                      p("These pages show several ways of exploring the differences between the odds ratio and the risk ratio.")
                       ))),
     
     # second tab
@@ -222,8 +223,8 @@ shinyUI(fluidPage(
     # footer stays at bottom of page, but isn't at the bottom of the browser window always... YET
     # to-do: figure out how to do this WITHOUT absolute positioning
     
-    tags$footer(br(),tags$small("Made by",  a(href="mailto:ken dot Kleinman at gmail dot com", target="_blank", "Ken Kleinman."), 
-                                "This app generated using", a(href="http://www.rstudio.com/shiny/", target="_blank", "Shiny"),
+    tags$footer(br(),tags$small("Made by",  a(href="mailto:ken dot Kleinman at gmail dot com", target="_blank", "Ken Kleinman"), 
+                                " and Katie Leap.  This app generated using", a(href="http://www.rstudio.com/shiny/", target="_blank", "Shiny"),
                                 "software, and hosted by the generous folks at", 
                                 a(href="http://www.rstudio.com/", target="_blank", "RStudio.")))
     )))
