@@ -29,11 +29,7 @@ shinyServer(function(input, output, session){
   # plot 1
   output$orbypPlot <- renderPlot({
     # take reactive input (and make sure it's numeric)
-    orbyp = function(addp=T, disNexp=(as.numeric(input$disNexp)), heaNexp=(as.numeric(input$heaNexp)), 
-                     disExp=(as.numeric(input$disExp)), heaExp=(as.numeric(input$heaExp))){
-      # convert reactive input into baseline probability and exposed probability
-      bp=disNexp/(heaNexp+disNexp)
-      ep=disExp/(heaExp+disExp)
+    orbyp = function(){
       OR = seq(1.1,9.2,.1)
       # no 0 for p_base
       p_base = c(.001,seq(.1,.9,.01))
@@ -54,18 +50,8 @@ shinyServer(function(input, output, session){
       
       ## GGPLOT ##
       ggplot(eg2, aes(y=as.factor(eg2$Var1),x=eg2$Var2)) + geom_tile(aes(fill= eg2$bias)) + 
-        scale_fill_gradient(low="green",high="red")
-      
-      #  contour(p_base, OR, t(bias), levels=c(110, 125,150), drawlabels=F, 
-      #          col = c("green","orange","red"), 
-      #          xlab="Baseline Probability", ylab="Odds Ratio", ylim = c(1,8))
-      #  text(x=0.075,y=1.5,"Bias < 10%")
-      #  text(x=.135,y = 2.4,"10% < Bias < 25%", srt=320)
-      #  text(x=.28,y = 2.4,"25% < Bias < 50%", srt=340)
-      #  text(x=.5,y = 4,"Bias > 50%")
-      #  # abline(h=1)
-      #  # abline(v=0)
-      if (addp==T) points(bp, (ep/(1-ep))/(bp/(1-bp)),pch=19,col="dark blue" )
+        scale_fill_gradient(low="green",high="red") + scale_y_discrete(breaks=NULL)
+
     }
     orbyp()
   })
