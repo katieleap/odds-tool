@@ -46,7 +46,7 @@ shinyServer(function(input, output, session){
       
       ### EG RASTER TRY TWO
       eg.raster <- expand.grid(odds_base,p_base)
-      eg3 <- cbind(eg.raster, bias=matrix(bias, ncol=1))
+      eg3 <<- cbind(eg.raster, bias=matrix(bias, ncol=1))
       
       ## GGPLOT
       ggplot() + aes(y=as.factor(eg3$Var1),x=eg3$Var2) + geom_tile(aes(fill= eg3$bias)) + 
