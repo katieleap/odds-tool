@@ -44,14 +44,14 @@ shinyServer(function(input, output, session){
       RR = p_case/p_base
       bias = ((   OR /   matrix(RR, ncol =82, byrow=T)   ) ) * 100
       
-      ### EG RASTER TRY TWO ###
+      ### EG RASTER TRY TWO
       eg.raster <- expand.grid(odds_base,p_base)
-      eg2 <- cbind(eg.raster, bias=matrix(bias, ncol=1))
+      eg3 <- cbind(eg.raster, bias=matrix(bias, ncol=1))
       
-      ## GGPLOT ##
-      ggplot(eg2, aes(y=as.factor(eg2$Var1),x=eg2$Var2)) + geom_tile(aes(fill= eg2$bias)) + 
+      ## GGPLOT
+      ggplot() + aes(y=as.factor(eg3$Var1),x=eg3$Var2) + geom_tile(aes(fill= eg3$bias)) + 
         scale_fill_gradient(low="green",high="red") + scale_y_discrete(breaks=NULL)
-
+      
     }
     orbyp()
   })
