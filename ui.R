@@ -65,13 +65,13 @@ shinyUI(fluidPage(
                         tags$tr(tags$th(""),tags$th("Diseased"),tags$th("Healthy")),
                         tags$tr(
                           tags$th("Exposed"),
-                          tags$td(textInputRow(inputId = "disExp", label = NULL, value = "")),
-                          tags$td(textInputRow(inputId = "heaExp", label = NULL, value = ""))
+                          tags$td(textInputRow(inputId = "disExp", label = NULL, value = "40")),
+                          tags$td(textInputRow(inputId = "heaExp", label = NULL, value = "60"))
                         ),
                         tags$tr(
                           tags$th("Not exposed"),
-                          tags$td(textInputRow(inputId = "disNexp", label = NULL, value = "")),
-                          tags$td(textInputRow(inputId = "heaNexp", label = NULL, value = ""))
+                          tags$td(textInputRow(inputId = "disNexp", label = NULL, value = "10")),
+                          tags$td(textInputRow(inputId = "heaNexp", label = NULL, value = "90"))
                         )
                       ),
                       
@@ -89,6 +89,8 @@ shinyUI(fluidPage(
                       p("Suppose that you've been exposed to an infectious virus. You may 
                         be wondering, \"What are the odds that I'm going to be okay?\" Being the data-oriented person that you are, 
                         you quickly make a table."),
+                      p("100 people have been exposed to this virus, compared to 100 people who haven't been exposed.
+                        Altogether, 50 people are sick and 150 people are healthy; 40 of the sick people were exposed and 10 weren't."),
                       p("From this table, you calculate the odds ratio. 
                         You might assume the odds ratio is telling you the odds of getting the disease after you've been exposed.
                         However, you would be wrong in assuming that. The graph below shows how wrong you might be."))),          
@@ -100,6 +102,8 @@ shinyUI(fluidPage(
                       
                       p("It's actually the", em("risk ratio"), "that tells you how much more likely you are to get the disease after exposure. 
                         This value takes into account the baseline probability, or the likelihood that you would end up diseased had you not been exposed."),    
+                      p("In our example situation, the odds ratio was 6, but the risk ratio was 4. So you are 4 times more likely to get this hypothetical disease
+                        after being exposed to the virus, which is a different (and significantly lower) risk than the odds ratio would indicate."),
                       p("If there isn't much likelihood of you getting this disease without exposure to the virus, 
                         or the odds ratio itself is small (exposure doesn't increase your risk much), the odds ratio and risk ratio are similar numbers.
                         We can see this by looking at the", tags$b("bias"), "in the odds ratio, 
