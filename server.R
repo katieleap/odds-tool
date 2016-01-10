@@ -2,14 +2,6 @@ library(shiny)
 library(RColorBrewer)
 library(ggplot2)
 
-# this function allows text inputs to be on the same line; default has them on new lines
-textInputRow<-function (inputId, label, value = "") 
-{
-  div(style="display:inline-block",
-      tags$label(label, `for` = inputId), 
-      tags$input(id = inputId, type = "text", value = value,class="input-small"))
-}
-
 shinyServer(function(input, output, session){
   
   # function that allows the exposed probability to be input through a slider
@@ -25,10 +17,9 @@ shinyServer(function(input, output, session){
     ) 
   })
   
-  #function that outputs a plot of "orbyp"... odds ratio by probability? 
+  #function that outputs a plot of odds ratio by probability
   # plot 1
   output$orbypPlot <- renderPlot({
-    # take reactive input (and make sure it's numeric)
     orbyp = function(){
       OR = seq(1.1,9.2,.1)
       # no 0 for p_base
@@ -50,9 +41,9 @@ shinyServer(function(input, output, session){
       
       ## GGPLOT
       ggplot() + aes(y=as.factor(eg3$Var1),x=eg3$Var2) + geom_tile(aes(fill= eg3$bias)) + 
-        scale_fill_gradient(low="green",high="red", name="Bias") + scale_y_discrete(breaks=NULL) +
+        scale_fill_gradient(trans = "log1p", low="green", high="red", name="Bias", breaks=c(100,200,400,800), labels=c("100%","200%","400%","800%")) + scale_y_discrete(breaks=NULL) +
         labs(title ="Bias in the Odds Ratio", x = "Baseline Probability", y = "Odds Ratio") +
-        geom_hline(yintercept=OR(),aes(alpha=".5")) + xlim(.1,.9)
+        geom_hline(yintercept=OR(),alpha=".5") + xlim(.1,.9)
       
     }
     orbyp()
