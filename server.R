@@ -21,9 +21,9 @@ shinyServer(function(input, output, session){
   # plot 1
   output$orbypPlot <- renderPlot({
     orbyp = function(){
-      OR = seq(1.1,9.2,.1)
+      OR = seq(1.1,9.2,length.out = 200)
       # no 0 for p_base
-      p_base = c(.001,seq(.1,.9,.01))
+      p_base = seq(.001,.9,length.out = 200)
       odds_base = p_base/(1-p_base)
       # calculate combinations of two parameters -> MATRIX
       eg = expand.grid(odds_base,OR)
@@ -33,7 +33,7 @@ shinyServer(function(input, output, session){
       p_case = odds_case/(1+odds_case)
       # RR to calculate bias, not shown
       RR = p_case/p_base
-      bias = ((   OR /   matrix(RR, ncol =82, byrow=T)   ) ) * 100
+      bias = ((   OR /   matrix(RR, ncol =200, byrow=T)   ) ) * 100
       
       ### EG RASTER TRY TWO
       eg.raster <- expand.grid(odds_base,p_base)
@@ -44,7 +44,7 @@ shinyServer(function(input, output, session){
         scale_fill_gradientn(trans = "log1p", colours=c("green", "greenyellow", "yellow","orangered","red"), name="Bias", 
                              values=c(0,.15,.2,.4,1), breaks=c(100,200,400,800), labels=c("100%","200%","400%","800%")) + scale_y_discrete(breaks=NULL) +
         labs(title ="Bias in the Odds Ratio", x = "Baseline Probability", y = "Odds Ratio") +
-        geom_hline(yintercept=OR(),alpha=".5") + xlim(.1,.9)
+        geom_hline(yintercept=OR(),alpha=".5") + xlim(.001,.9)
       
     }
     orbyp()
