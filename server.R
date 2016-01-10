@@ -50,7 +50,9 @@ shinyServer(function(input, output, session){
       
       ## GGPLOT
       ggplot() + aes(y=as.factor(eg3$Var1),x=eg3$Var2) + geom_tile(aes(fill= eg3$bias)) + 
-        scale_fill_gradient(low="green",high="red") + scale_y_discrete(breaks=NULL)
+        scale_fill_gradient(low="green",high="red", name="Bias") + scale_y_discrete(breaks=NULL) +
+        labs(title ="Bias in the Odds Ratio", x = "Baseline Probability", y = "Odds Ratio") +
+        geom_hline(yintercept=OR(),aes(alpha=".5")) + xlim(.1,.9)
       
     }
     orbyp()
@@ -167,11 +169,15 @@ shinyServer(function(input, output, session){
   
   
   # function to calculate the odds ratio from four values: disExp, heaNexp, heaExp, and disNexp
-  output$oddsRatio <- renderText({
+  output$oddsRatio <- renderText(OR())
+  
+  OR <- reactive({
     (as.numeric(input$disExp)*as.numeric(input$heaNexp))/(as.numeric(input$heaExp)*as.numeric(input$disNexp))
   })
   
-  output$riskRatio <- renderText({
+  output$riskRatio <- renderText(RR())
+  
+  RR <- reactive({
     (as.numeric(input$disExp)/(as.numeric(input$heaExp)+as.numeric(input$disExp)))/(as.numeric(input$disNexp)/(as.numeric(input$heaNexp)+as.numeric(input$disNexp)))
   })
   
