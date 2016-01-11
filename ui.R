@@ -95,8 +95,13 @@ shinyUI(fluidPage(
              
              fluidRow(
                column(10, offset = 1,
-                      
+                      fluidRow(column(10,
                       plotOutput("orbypPlot"),
+                      br()),
+                     column(2,
+                            br(),br(),br(),
+                        numericInput("basPr", "Baseline Probability", value="0.8", min=0, max=1, step=0.05)
+                        )),
                       
                       p("It's actually the", em("risk ratio"), "that tells you how much more likely you are to get the disease after exposure. 
                         This value takes into account the baseline probability, or the likelihood that you would end up diseased had you not been exposed."),    
