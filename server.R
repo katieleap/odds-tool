@@ -42,7 +42,7 @@ shinyServer(function(input, output, session){
       ## GGPLOT
       ggplot() + aes(y=as.factor(eg3$Var1),x=eg3$Var2) + geom_tile(aes(fill= eg3$bias)) + 
         scale_fill_gradientn(trans = "log1p", colours=c("green", "greenyellow", "yellow","orangered","red"), name="Bias", 
-                             values=c(0,.15,.2,.4,1), breaks=c(100,200,400,800), labels=c("100%","200%","400%","800%")) + scale_y_discrete(breaks=NULL) +
+                             values=c(0,.1,.15,.4,1), breaks=c(100,200,400,800), labels=c("100%","200%","400%","800%")) + scale_y_discrete(breaks=NULL) +
         labs(title ="Bias in the Odds Ratio \n", x = "\n Baseline Probability", y = "Odds Ratio") +
         geom_point(aes_string(y=OR(),x=input$basPr)) + theme_minimal()
       
