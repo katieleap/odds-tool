@@ -230,8 +230,10 @@ shinyUI(fluidPage(
     # footer stays at bottom of page, but isn't at the bottom of the browser window always... YET
     # to-do: figure out how to do this WITHOUT absolute positioning
     
-    tags$footer(br(),tags$small("Made by",  a(href="mailto:ken dot Kleinman at gmail dot com", target="_blank", "Ken Kleinman"), 
+    tags$footer(br(),
+                img(src="SPHHS_Logo_rgb.jpg", height=100, width=530), br(),
+                tags$small("Made by",  a(href="mailto:ken dot Kleinman at gmail dot com", target="_blank", "Ken Kleinman"), 
                                 " and Katie Leap.  This app generated using", a(href="http://www.rstudio.com/shiny/", target="_blank", "Shiny"),
                                 "software, and hosted by the generous folks at", 
-                                a(href="http://www.rstudio.com/", target="_blank", "RStudio.")))
+                                a(href="http://www.rstudio.com/", target="_blank", "RStudio.")), br())
     )))
