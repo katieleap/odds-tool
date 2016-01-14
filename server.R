@@ -69,7 +69,7 @@ shinyServer(function(input, output, session){
       eg3 <<- cbind(eg.raster, bias=matrix(bias, ncol=1))
       
       ## GGPLOT
-      ggplot() + aes(y=as.factor(eg3$Var1),x=eg3$Var2) + geom_tile(aes(fill= eg3$bias)) + 
+      ggplot() + aes(y=as.factor(eg3$Var1),x=eg3$Var2) + geom_tile(aes(fill= eg3$bias, color = eg3$bias)) + 
         scale_fill_gradient(high = "red", low="green", name="Bias")  + scale_y_discrete(breaks=NULL) +
         labs(title ="Bias in the Odds Ratio \n", x = "\n Baseline Probability", y = "Odds Ratio") +
         geom_point(aes_string(y=OR(),x=input$basPr), shape=13, size=4) + theme_minimal()+ 
