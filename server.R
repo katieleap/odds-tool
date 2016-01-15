@@ -20,6 +20,10 @@ shinyServer(function(input, output, session){
   #function that outputs a plot of odds ratio by probability
   # plot 1
   output$orbypPlot <- renderPlot({
+    validate(
+      need(OR()>=1,"OR needs to be greater than 1; try swapping your diseased and healthy values!" ),
+      need(input$basPr<=1, "Probability is a number less than 1! Try converting your probability to a decimal!")
+    )
     orbyp = function(){
       OR = seq(1.001,9.2,length.out = 200)
       # no 0 for p_base
@@ -33,7 +37,7 @@ shinyServer(function(input, output, session){
       p_case = odds_case/(1+odds_case)
       # RR to calculate bias, not shown
       RR = p_case/p_base
-      bias = ((   OR /   matrix(RR, ncol =200, byrow=T)   ) ) * 100
+      bias = ((   OR /   matrix(RR, ncol =200, byrow=T)) ) * 100 - 100
       
       ### EG RASTER TRY TWO
       eg.raster <- expand.grid(odds_base,p_base)
@@ -42,41 +46,15 @@ shinyServer(function(input, output, session){
       ## GGPLOT
       ggplot() + aes(y=as.factor(eg3$Var1),x=eg3$Var2) + geom_tile(aes(fill= eg3$bias)) + 
         scale_fill_gradientn(trans = "log1p", colours=c("green", "greenyellow", "yellow","orangered","red"), name="Bias", 
-                             values=c(0,.1,.15,.4,1), breaks=c(100,200,400,800), labels=c("100%","200%","400%","800%")) + scale_y_discrete(breaks=NULL) +
+                             values=c(0,.1,.15,.7,1), breaks=c(0,100,200,300), labels=c("0%","100%","200%","300%")) + 
+        scale_y_discrete(breaks=NULL) +
         labs(title ="Bias in the Odds Ratio \n", x = "\n Baseline Probability", y = "Odds Ratio") +
-        geom_point(aes_string(y=OR(),x=input$basPr), shape=13, size=4) + theme_minimal() + 
+        geom_point(aes_string(y=OR(),x=input$basPr), shape=13, size=4) + theme_minimal() +
         annotate("text", y=OR()+8,x=input$basPr, label="Input Data")
       
-    }
-    # the l is for little
-    lorbyp = function(){
-      OR = seq(0.001,1,length.out = 200)
-      # no 0 for p_base
-      p_base = seq(.001,1,length.out = 200)
-      odds_base = p_base/(1-p_base)
-      # calculate combinations of two parameters -> MATRIX
-      eg = expand.grid(odds_base,OR)
-      # expand.grid makes Var1 and Var2, product makes odds of disease (case)
-      odds_case = eg$Var1 * eg$Var2
-      # p_case a.k.a. exposed probability
-      p_case = odds_case/(1+odds_case)
-      # RR to calculate bias, not shown
-      RR = p_case/p_base
-      bias = ((   OR /   matrix(RR, ncol =200, byrow=T)   ) ) * 100
-      
-      ### EG RASTER TRY TWO
-      eg.raster <- expand.grid(odds_base,p_base)
-      eg3 <<- cbind(eg.raster, bias=matrix(bias, ncol=1))
-      
-      ## GGPLOT
-      ggplot() + aes(y=as.factor(eg3$Var1),x=eg3$Var2) + geom_tile(aes(fill= eg3$bias, color = eg3$bias)) + 
-        scale_fill_gradient(high = "red", low="green", name="Bias")  + scale_y_discrete(breaks=NULL) +
-        labs(title ="Bias in the Odds Ratio \n", x = "\n Baseline Probability", y = "Odds Ratio") +
-        geom_point(aes_string(y=OR(),x=input$basPr), shape=13, size=4) + theme_minimal()+ 
-        annotate("text", y=OR()+8,x=input$basPr, label="Input Data")
     }
     
-    if (OR() >1) orbyp() else lorbyp()
+    orbyp()
   })
   
   
