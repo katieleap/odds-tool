@@ -29,11 +29,11 @@ shinyServer(function(input, output, session){
   # plot 1
   output$orbypPlot <- renderPlot({
     validate(
-      need(OR()>=1,"OR needs to be greater than 1; try swapping your diseased and healthy values!" ),
-      need(input$basPr<=1, "Probability is a number less than 1! Try converting your probability to a decimal!")
+      need(OR()>=1 || is.na(OR()),"OR needs to be greater than 1; try swapping your diseased and healthy values!" ),
+      need(input$basPr<=1 || is.na(input$basPr), "Probability is a number less than 1! Try converting your probability to a decimal!")
     )
     orbyp = function(){
-      OR = seq(1.001,9.2,length.out = 200)
+      OR = seq(1.001,maxOR(),length.out = 200)
       # no 0 for p_base
       p_base = seq(.001,1,length.out = 200)
       odds_base = p_base/(1-p_base)
@@ -56,8 +56,9 @@ shinyServer(function(input, output, session){
         scale_fill_gradientn(trans="log1p", colours=c("green", "greenyellow", "yellow","orangered","red"), name="Bias", 
                              values=c(0,.2,.45,.7,1), breaks=c(0,100,200,300), labels=c("0%","100%","200%","300%")) + 
         labs(title ="Bias in the Odds Ratio \n", x = "\n Baseline Probability", y = "Odds Ratio") +
-        geom_point(aes_string(y=OR(),x=input$basPr), shape=23, size=3, fill="darkslategray") + theme_minimal() +
-        annotate("text", y=OR()+0.5,x=input$basPr, label="Input Data")
+        geom_point(aes_string(y=OR(),x=input$basPr), shape=23, size=3, fill="darkslategray") + 
+        theme_minimal() +
+        annotate("text", y=OR()+0.5,x=input$basPr, label="Input Data", color="white", fill="black")
       
     }
     
@@ -187,4 +188,7 @@ shinyServer(function(input, output, session){
     (as.numeric(input$disExp)/(as.numeric(input$heaExp)+as.numeric(input$disExp)))/(as.numeric(input$disNexp)/(as.numeric(input$heaNexp)+as.numeric(input$disNexp)))
   })
   
+  # max OR value to make plot from
+  
+  maxOR <- reactive(if (OR() < 8 || is.na(OR())) 9 else OR()+1)
 })
