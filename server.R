@@ -58,7 +58,7 @@ shinyServer(function(input, output, session){
         labs(title ="Bias in the Odds Ratio \n", x = "\n Baseline Probability", y = "Odds Ratio") +
         geom_point(aes_string(y=OR(),x=input$basPr), shape=23, size=3, fill="darkslategray") + 
         theme_minimal() +
-        annotate("text", y=OR()+0.5,x=input$basPr, label="Input Data", color="white", fill="black")
+        annotate("text", y=OR()+0.5,x=input$basPr, label="Input Data")
       
     }
     
