@@ -3,6 +3,14 @@ library(RColorBrewer)
 library(ggplot2)
 
 shinyServer(function(input, output, session){
+  # clear fields button
+  observeEvent(input$clear, {
+               updateNumericInput(session, "basPr", "Baseline Probability", value="", min=0, max=1, step=0.05)
+               updateTextInput(session, inputId = "disExp", label = NULL, value = "")
+               updateTextInput(session, inputId = "heaExp", label = NULL, value = "")
+               updateTextInput(session, inputId = "disNexp", label = NULL, value = "")
+               updateTextInput(session, inputId = "heaNexp", label = NULL, value = "")
+    })
   
   # function that allows the exposed probability to be input through a slider
   # slider one
@@ -27,7 +35,7 @@ shinyServer(function(input, output, session){
     orbyp = function(){
       OR = seq(1.001,9.2,length.out = 200)
       # no 0 for p_base
-      p_base = seq(.001,.9,length.out = 200)
+      p_base = seq(.001,1,length.out = 200)
       odds_base = p_base/(1-p_base)
       # calculate combinations of two parameters -> MATRIX
       eg = expand.grid(odds_base,OR)

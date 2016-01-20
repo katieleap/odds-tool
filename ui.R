@@ -102,7 +102,8 @@ shinyUI(fluidPage(
                       br()),
                      column(2,
                             br(),br(),br(),
-                        numericInput("basPr", "Baseline Probability", value="0.8", min=0, max=1, step=0.05)
+                        numericInput("basPr", "Baseline Probability", value="0.8", min=0, max=1, step=0.05),
+                        actionButton("clear","Clear Fields")
                         )),
                       
                       p("It's actually the", em("risk ratio"), "that tells you how much more likely you are to get the disease after exposure. 
